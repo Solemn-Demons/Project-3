@@ -8,7 +8,7 @@ const typeDefs = `
   }
 
   type Auth {
-    token: ID!
+    token: ID!7
     profile: Profile
   }
 
