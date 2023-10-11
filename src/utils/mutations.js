@@ -1,8 +1,20 @@
 import { gql } from '@apollo/client';
 
 export const ADD_STORYBOARD = gql`
-  mutation addStoryboard
-`
+  mutation addStoryboard($storyboardText: String!, $storyboardAuthor: String!) {
+    addStoryboard(storyboardText: $storyboardText, storyboardAuthor: $storyboardAuthor) {
+      _id
+      storyboardText
+      storyboardAuthor
+      createdAt
+      comments {
+        _id
+        commentText
+      }
+    }
+  }
+`;
+
 export const DELETE_STORYBOARD = gql`
   mutation deleteStoryboard
 `
