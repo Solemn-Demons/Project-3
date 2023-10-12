@@ -1,29 +1,35 @@
-const typeDefs = `
-  type Profile {
-    _id: ID
-    name: String
-    email: String
-    password: String
-    skills: [String]!
-  }
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLSchema
+} = require('graphql');
 
-  type Auth {
-    token: ID!7
-    profile: Profile
+const CharacterType = new GraphQLObjectType({
+  name: 'Character',
+  fields: {
+      id: { type: GraphQLID },
+      name: { type: GraphQLString },
+      role: { type: GraphQLString },
+      description: { type: GraphQLString }
   }
+});
 
-  type Query {
-    profiles: [Profile]!
-    profile(profileId: ID!): Profile
-    # Because we have the context functionality in place to check a JWT and decode its data, we can use a query that will always find and return the logged in user's data
-    me: Profile
+
+const PlotType = new GraphQLObjectType({
+  name: 'Plot',
+  fields: {
+      id: { type: GraphQLID },
+      title: { type: GraphQLString },
+      description: { type: GraphQLString },
+      mainCharacter: {
+          type: CharacterType,
+          resolve(parent, args) {
+          }
+      },
+      timeline: { type: GraphQLString },  
+      setting: { type: GraphQLString }    
   }
-
-  type Mutation {
-    addProfile(name: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
-
-  }
-`;
+});
 
 module.exports = typeDefs;
