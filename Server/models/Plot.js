@@ -11,4 +11,6 @@ const plotSchema = new mongoose.Schema({
     setting: String      
 });
 
+const Plot = mongoose.model('Plot', plotSchema);
+
 module.exports = mongoose.model('Plot', plotSchema);
