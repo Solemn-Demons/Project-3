@@ -1,7 +1,14 @@
+// Importing mongoose library for creating MongoDB schemas
 const mongoose = require('mongoose');
+
+// Destructuring Schema from mongoose
+const { Schema } = mongoose;
+
+// Importing bcrypt library for password hashing
 const bcrypt = require('bcrypt');
 
-const userSchema = new mongoose.Schema({
+// Defining user schema
+const userSchema = new Schema({
   firstName: {
     type: String,
     required: true,
@@ -30,6 +37,7 @@ userSchema.pre('save', async function (next) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
+
   next();
 });
 
@@ -38,6 +46,8 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
+// Creating User model from userSchema
 const User = mongoose.model('User', userSchema);
 
+// Exporting User model
 module.exports = User;
