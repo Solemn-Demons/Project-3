@@ -1,9 +1,10 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const { GraphQLSchema } = require('graphql');
-const { User, Character, Plot } = require('./models'); // Adjust the path as needed
-const RootQuery = require('./graphql/types').RootQuery;
-const Mutation = require('./graphql/mutations').Mutation;
+const { User, Character, Plot } = require('./models'); 
+const RootQuery = require('./schemas/typeDefs').RootQuery;
+const Mutation = require('./schemas/resolvers').Mutation;
+
 
 const app = express();
 const PORT = process.env.PORT || 4000;
