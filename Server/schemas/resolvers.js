@@ -1,58 +1,114 @@
-const { User, Character, Plot } = require('../models'); 
+const { User, Character, Plot } = require('../models');
 
 const resolvers = {
   Query: {
-    user: async (_, { userId }) => {
+    getCharacterById: async (_, { _id }) => {
       try {
-        const user = await User.findById(userId);
-        return user;
+        return await Character.findById(_id);
       } catch (error) {
-        throw new Error('Unable to fetch user');
+        throw new Error(error);
       }
     },
-    character: async (_, { characterId }) => {
+    getAllCharacters: async () => {
       try {
-        const character = await Character.findById(characterId);
-        return character;
+        return await Character.find();
       } catch (error) {
-        throw new Error('Unable to fetch character');
+        throw new Error(error);
       }
     },
-    plot: async (_, { plotId }) => {
+    getPlotById: async (_, { _id }) => {
       try {
-        const plot = await Plot.findById(plotId);
-        return plot;
+        return await Plot.findById(_id);
       } catch (error) {
-        throw new Error('Unable to fetch plot');
+        throw new Error(error);
+      }
+    },
+    getAllPlots: async () => {
+      try {
+        return await Plot.find();
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    getUserById: async (_, { _id }) => {
+      try {
+        return await User.findById(_id);
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    getAllUsers: async () => {
+      try {
+        return await User.find();
+      } catch (error) {
+        throw new Error(error);
       }
     },
   },
   Mutation: {
-    addUser: async (_, { firstName, lastName, email, password }) => {
+    createCharacter: async (_, characterInput) => {
       try {
-        const user = new User({ firstName, lastName, email, password });
-        await user.save();
-        return user;
+        return await Character.create(characterInput);
       } catch (error) {
-        throw new Error('Unable to create user');
+        throw new Error(error);
       }
     },
-    addCharacter: async (_, { name, age, gender, physicalDescription, occupation }) => {
+    updateCharacter: async (_, { _id, ...updateData }) => {
       try {
-        const character = new Character({ name, age, gender, physicalDescription, occupation });
-        await character.save();
-        return character;
+        return await Character.findByIdAndUpdate(_id, updateData, {
+          new: true,
+        });
       } catch (error) {
-        throw new Error('Unable to create character');
+        throw new Error(error);
       }
     },
-    addPlot: async (_, { title, description, mainCharacterId, timeline, setting }) => {
+    deleteCharacter: async (_, { _id }) => {
       try {
-        const plot = new Plot({ title, description, mainCharacter: mainCharacterId, timeline, setting });
-        await plot.save();
-        return plot;
+        return await Character.findByIdAndDelete(_id);
       } catch (error) {
-        throw new Error('Unable to create plot');
+        throw new Error(error);
+      }
+    },
+    createPlot: async (_, plotInput) => {
+      try {
+        return await Plot.create(plotInput);
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    updatePlot: async (_, { _id, ...updateData }) => {
+      try {
+        return await Plot.findByIdAndUpdate(_id, updateData, { new: true });
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    deletePlot: async (_, { _id }) => {
+      try {
+        return await Plot.findByIdAndDelete(_id);
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    createUser: async (_, userInput) => {
+      try {
+        return await User.create(userInput);
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    updateUser: async (_, { _id, ...updateData }) => {
+      try {
+        return await User.findByIdAndUpdate(_id, updateData, { new: true });
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    deleteUser: async (_, { _id }) => {
+      try {
+        return await User.findByIdAndDelete(_id);
+      } catch (error) {
+        throw new Error(error);
       }
     },
   },
