@@ -5,55 +5,94 @@ const loginFormHandler = async (event) => {
     const password = document.querySelector('#password').value.trim();
   
     if (username && password) {
-        const response = await fetch('/api/users/login', {
+        const response = await fetch('/graphql', {
             method: 'POST',
-            body: JSON.stringify({ username, password }),
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: `
+                    mutation Login($username: String!, $password: String!) {
+                        login(username: $username, password: $password) {
+                            token
+                            user {
+                                id
+                                username
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    username,
+                    password,
+                },
+            }),
         });
   
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
+        const responseBody = await response.json();
+
+        if (response.ok && responseBody.data && responseBody.data.login) {
+            const { token } = responseBody.data.login;
+            const tokenExpiryTime = new Date().getTime() + 3600000;
+            localStorage.setItem('token', token);
+            localStorage.setItem('tokenExpiry', tokenExpiryTime.toString());
             document.location.replace('/');
         } else {
-            const errorData = await response.json();
+            const errorData = responseBody.errors[0];
             alert(`Failed to log in. ${errorData.message || ''}`);
         }
     }
 };
-  
 const signupFormHandler = async (event) => {
     event.preventDefault();
-  
+
     const username = document.querySelector('#username-signup').value.trim();
     const email = document.querySelector('#email-signup').value.trim();
     const password = document.querySelector('#password-signup').value.trim();
-  
+
     if (username && email && password) {
-        const response = await fetch('/api/users/signup', {
+        const response = await fetch('/graphql', {
             method: 'POST',
-            body: JSON.stringify({ username, email, password }),
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: `
+                    mutation Signup($username: String!, $email: String!, $password: String!) {
+                        signup(username: $username, email: $email, password: $password) {
+                            token
+                            user {
+                                id
+                                username
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    username,
+                    email,
+                    password,
+                },
+            }),
         });
-  
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
+
+        const responseBody = await response.json();
+
+        if (response.ok && responseBody.data && responseBody.data.signup) {
+            const { token } = responseBody.data.signup;
+            localStorage.setItem('token', token);
+            const tokenExpiryTime = new Date().getTime() + 3600000;  // Assuming token is valid for 1 hour
+            localStorage.setItem('tokenExpiry', tokenExpiryTime.toString());
             document.location.replace('/');
         } else {
-            const errorData = await response.json();
+            const errorData = responseBody.errors[0];
             alert(`Failed to sign up. ${errorData.message || ''}`);
         }
     }
 };
-  
-const loginForm = document.querySelector('.login-form');
+
 const signupForm = document.querySelector('.signup-form');
-  
-if (loginForm) {
-    loginForm.addEventListener('submit', loginFormHandler);
-}
-  
+
 if (signupForm) {
     signupForm.addEventListener('submit', signupFormHandler);
 }

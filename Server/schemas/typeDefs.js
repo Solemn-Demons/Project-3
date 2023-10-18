@@ -24,6 +24,7 @@ const typeDefs = gql`
     firstName: String!
     lastName: String!
     email: String!
+    username: String!
   }
 
   type AuthPayload {
@@ -41,6 +42,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    signup(username: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
     createCharacter(
       name: String!
