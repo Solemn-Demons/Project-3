@@ -26,11 +26,14 @@ const typeDefs = gql`
     setting: String
   }
 
+  # Query Type
   type Query {
-    user(userId: ID!): User
-    character(characterId: ID!): Character
-    plot(plotId: ID!): Plot
-    storyboard(storyboardId: ID!): Storyboard
+    getCharacterById(_id: ID!): Character
+    getPlotById(_id: ID!): Plot
+    getUserById(_id: ID!): User
+    getAllCharacters: [Character]
+    getAllPlots: [Plot]
+    getAllUsers: [User]
   }
 
   type Mutation {
