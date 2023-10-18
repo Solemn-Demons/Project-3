@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Signup Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-top: 100px;
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="toggleForm()">Sign up</a></p>
+        <button onclick="window.location.href = 'index.html'">Home</button>
+    </div>
+    
+    <div class="container" style="display: none;" id="signupContainer">
+        <h1>Sign Up</h1>
+        <form id="signupForm">
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
+    </div>
+
+    <script>
+        function toggleForm() {
+            const loginContainer = document.querySelector("#loginContainer");
+            const signupContainer = document.querySelector("#signupContainer");
+            loginContainer.style.display = loginContainer.style.display === "none" ? "block" : "none";
+            signupContainer.style.display = signupContainer.style.display === "none" ? "block" : "none";
+        }
+    
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            // Add your authentication logic here, e.g., checking username and password
+            const username = document.querySelector("#loginForm input[type='text']").value;
+            const password = document.querySelector("#loginForm input[type='password']").value;
+    
+            // Assuming successful login, redirect to the homepage
+            if (username === "yourUsername" && password === "yourPassword") {
+                window.location.href = "index.html"; // Change "homepage.html" to your homepage URL
+            } else {
+                // Handle incorrect login credentials
+                alert("Incorrect username or password. Please try again.");
+            }
+        });
+    </script>
+    
+    
+    
+    
+    
+    
+    
+</body>
+</html>
