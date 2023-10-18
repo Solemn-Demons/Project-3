@@ -3,6 +3,8 @@ const express = require('express');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
+const jwt = require('jsonwebtoken');
+
 
 // Import GraphQL type definitions, resolvers, and database configuration
 const { typeDefs, resolvers } = require('./schemas');
@@ -18,6 +20,20 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => { 
+    let token = req.headers.authorization || '';
+    token = token.split('Bearer ')[1]; 
+
+    if (!token) return {};
+
+    try {
+      const user = jwt.verify(token, process.env.JWT_SECRET);
+      return { user };
+    } catch (err) {
+      console.error('Invalid token');
+      return {};
+    }
+  }
 });
 
 // Function to start the Apollo Server
