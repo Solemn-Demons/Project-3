@@ -1,13 +1,6 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type User {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    email: String!
-  }
-
   type Character {
     id: ID!
     name: String!
@@ -26,7 +19,15 @@ const typeDefs = gql`
     setting: String
   }
 
-  # Query Type
+  # User Type
+  type User {
+    _id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String
+  }
+
   type Query {
     getCharacterById(_id: ID!): Character
     getPlotById(_id: ID!): Plot
