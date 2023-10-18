@@ -4,7 +4,7 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    background-image: url(./img/Sky.jpg);
+    background-image: url(./client/src/img/Sky.jpg);
 }
 
 #nav, #cloud {
@@ -93,6 +93,3 @@ nav li {
     height: 100%;
 }
 
-
-#cloud {
-}
