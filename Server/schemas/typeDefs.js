@@ -1,14 +1,6 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type User {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    email: String!
-    password: String!
-  }
-
   type Character {
     id: ID!
     name: String!
@@ -27,21 +19,71 @@ const typeDefs = gql`
     setting: String
   }
 
+  # User Type
+  type User {
+    _id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String
+  }
+
   type Query {
-    user(userId: ID!): User
-    character(characterId: ID!): Character
-    plot(plotId: ID!): Plot
-    storyboard(storyboardId: ID!): Storyboard
+    getCharacterById(_id: ID!): Character
+    getPlotById(_id: ID!): Plot
+    getUserById(_id: ID!): User
+    getAllCharacters: [Character]
+    getAllPlots: [Plot]
+    getAllUsers: [User]
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): User
-    addCharacter(name: String!, age: Int, gender: String, physicalDescription: String, occupation: String): Character
-    addPlot(title: String!, description: String, mainCharacterId: ID, timeline: String, setting: String): Plot
-    addStoryboard(storyboardText: String!, storyboardAuthor: String!): Storyboard
-    deleteStoryboard(storyboardId: ID!): Storyboard
-    updateStoryboard(storyboardId: ID!, storyboardText: String, storyboardAuthor: String): Storyboard
-    addComment(storyboardId: ID!, commentText: String!): Storyboard
+    createCharacter(
+      name: String!
+      age: Int
+      gender: String
+      physicalDescription: String
+      occupation: String
+    ): Character
+    updateCharacter(
+      _id: ID!
+      name: String
+      age: Int
+      gender: String
+      physicalDescription: String
+      occupation: String
+    ): Character
+    deleteCharacter(_id: ID!): Character
+    createPlot(
+      title: String
+      description: String
+      mainCharacter: ID
+      timeline: String
+      setting: String
+    ): Plot
+    updatePlot(
+      _id: ID!
+      title: String
+      description: String
+      mainCharacter: ID
+      timeline: String
+      setting: String
+    ): Plot
+    deletePlot(_id: ID!): Plot
+    createUser(
+      firstName: String!
+      lastName: String!
+      email: String!
+      password: String!
+    ): User
+    updateUser(
+      _id: ID!
+      firstName: String
+      lastName: String
+      email: String
+      password: String
+    ): User
+    deleteUser(_id: ID!): User
   }
 `;
 

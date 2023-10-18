@@ -1,0 +1,93 @@
+[
+  {
+    "name": "Character 1",
+    "age": 30,
+    "gender": "Male",
+    "physicalDescription": "Tall with brown hair",
+    "occupation": "Engineer"
+  },
+  {
+    "name": "Character 2",
+    "age": 25,
+    "gender": "Female",
+    "physicalDescription": "Short with black hair",
+    "occupation": "Doctor"
+  },
+  {
+    "name": "Character 3",
+    "age": 35,
+    "gender": "Female",
+    "physicalDescription": "Medium height with blonde hair",
+    "occupation": "Writer"
+  },
+  {
+    "name": "Character 4",
+    "age": 40,
+    "gender": "Male",
+    "physicalDescription": "Stocky with a beard",
+    "occupation": "Chef"
+  },
+  {
+    "name": "Character 5",
+    "age": 28,
+    "gender": "Male",
+    "physicalDescription": "Athletic with blue eyes",
+    "occupation": "Police Officer"
+  },
+  {
+    "name": "Character 6",
+    "age": 22,
+    "gender": "Female",
+    "physicalDescription": "Petite with red hair",
+    "occupation": "Student"
+  },
+  {
+    "name": "Character 7",
+    "age": 45,
+    "gender": "Male",
+    "physicalDescription": "Bald with a scar on his cheek",
+    "occupation": "Private Investigator"
+  },
+  {
+    "name": "Character 8",
+    "age": 32,
+    "gender": "Female",
+    "physicalDescription": "Curly hair with glasses",
+    "occupation": "Librarian"
+  },
+  {
+    "name": "Character 9",
+    "age": 27,
+    "gender": "Male",
+    "physicalDescription": "Slim with tattoos",
+    "occupation": "Musician"
+  },
+  {
+    "name": "Character 10",
+    "age": 35,
+    "gender": "Female",
+    "physicalDescription": "Elegant and stylish",
+    "occupation": "Fashion Designer"
+  },
+  {
+    "name": "Character 11",
+    "age": 50,
+    "gender": "Male",
+    "physicalDescription": "Grey hair and a distinguished look",
+    "occupation": "Professor"
+  },
+  {
+    "name": "Character 12",
+    "age": 26,
+    "gender": "Female",
+    "physicalDescription": "Tattooed and punk style",
+    "occupation": "Bartender"
+  },
+  {
+    "name": "Character 13",
+    "age": 38,
+    "gender": "Male",
+    "physicalDescription": "Rugged with a beard",
+    "occupation": "Mountaineer"
+  }
+]
