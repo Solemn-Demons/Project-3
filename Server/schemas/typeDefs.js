@@ -38,37 +38,52 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addUser(
-      firstName: String!
-      lastName: String!
-      email: String!
-      password: String!
-    ): User
-    addCharacter(
+    createCharacter(
       name: String!
       age: Int
       gender: String
       physicalDescription: String
       occupation: String
     ): Character
-    addPlot(
-      title: String!
+    updateCharacter(
+      _id: ID!
+      name: String
+      age: Int
+      gender: String
+      physicalDescription: String
+      occupation: String
+    ): Character
+    deleteCharacter(_id: ID!): Character
+    createPlot(
+      title: String
       description: String
-      mainCharacterId: ID
+      mainCharacter: ID
       timeline: String
       setting: String
     ): Plot
-    addStoryboard(
-      storyboardText: String!
-      storyboardAuthor: String!
-    ): Storyboard
-    deleteStoryboard(storyboardId: ID!): Storyboard
-    updateStoryboard(
-      storyboardId: ID!
-      storyboardText: String
-      storyboardAuthor: String
-    ): Storyboard
-    addComment(storyboardId: ID!, commentText: String!): Storyboard
+    updatePlot(
+      _id: ID!
+      title: String
+      description: String
+      mainCharacter: ID
+      timeline: String
+      setting: String
+    ): Plot
+    deletePlot(_id: ID!): Plot
+    createUser(
+      firstName: String!
+      lastName: String!
+      email: String!
+      password: String!
+    ): User
+    updateUser(
+      _id: ID!
+      firstName: String
+      lastName: String
+      email: String
+      password: String
+    ): User
+    deleteUser(_id: ID!): User
   }
 `;
 
