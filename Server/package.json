@@ -12,13 +12,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "v18.16.1",
+    "npm": "9.5.1"
+  },
   "dependencies": {
     "@apollo/server": "^4.7.1",
     "apollo-server-express": "^3.6.2",
     "bcrypt": "^5.0.0",
     "express": "^4.17.2",
     "graphql": "^16.6.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.0.2"
   },
   "devDependencies": {
