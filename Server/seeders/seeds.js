@@ -1,80 +1,45 @@
-const db = require('./connection');
-const { User, Character } = require('../models');
+const db = require('../config/connection');
+const { User, Character, Plot } = require('../models');
 const cleanDB = require('./cleanDB');
 
+const userSeeds = require('./userSeeds.json');
+const plotSeeds = require('./plotSeeds.json');
+const characterSeeds = require('./characterSeeds.json');
+
 db.once('open', async () => {
-  await cleanDB('Character', 'characters');
   await cleanDB('User', 'users');
+  await cleanDB('Plot', 'plots');
+  await cleanDB('Character', 'characters');
 
-  // Seed characters
-  const characters = await Character.insertMany([
-    {
-      name: 'John Doe',
-      age: 30,
-      gender: 'Male',
-      physicalDescription: 'Tall with brown hair',
-      occupation: 'Software Engineer',
-    },
-    {
-      name: 'Jane Smith',
-      age: 28,
-      gender: 'Female',
-      physicalDescription: 'Short with blonde hair',
-      occupation: 'Doctor',
-    },
-    {
-      name: 'David Johnson',
-      age: 45,
-      gender: 'Male',
-      physicalDescription: 'Medium height, bald',
-      occupation: 'Accountant',
-    },
-    {
-      name: 'Emily Davis',
-      age: 35,
-      gender: 'Female',
-      physicalDescription: 'Athletic build, red hair',
-      occupation: 'Fitness Trainer',
-    },
-    // Add more character objects as needed
-  ]);
+  // Bulk create each model
+  const users = await User.insertMany(userSeeds);
 
-  console.log('Characters seeded');
+  // Obtain the Character _id values as you insert them
+  const characters = await Character.insertMany(characterSeeds);
 
-  // Seed users
-  await User.create({
-    firstName: 'Alice',
-    lastName: 'Johnson',
-    email: 'alice@testmail.com',
-    password: 'password12345',
-    // Include any additional user data or orders if needed
-  });
+  // Initialize an index for character selection
+  let characterIndex = 0;
 
-  await User.create({
-    firstName: 'Bob',
-    lastName: 'Smith',
-    email: 'bob@testmail.com',
-    password: 'password12345',
-    // Include any additional user data or orders if needed
-  });
+  // Iterate through plots and associate characters in a round-robin fashion
+  for (let i = 0; i < plotSeeds.length; i++) {
+    const character = characters[characterIndex];
+    plotSeeds[i].mainCharacterId = character._id;
 
-  await User.create({
-    firstName: 'Eve',
-    lastName: 'Williams',
-    email: 'eve@testmail.com',
-    password: 'password12345',
-    // Include any additional user data or orders if needed
-  });
+    // Increment the character index for the next plot, looping back to the start if needed
+    characterIndex = (characterIndex + 1) % characters.length;
+  }
 
-  await User.create({
-    firstName: 'Charlie',
-    lastName: 'Brown',
-    email: 'charlie@testmail.com',
-    password: 'password12345',
-    // Include any additional user data or orders if needed
-  });
+  // Bulk insert the Plot documents
+  const plots = await Plot.insertMany(plotSeeds);
 
-  console.log('Users seeded');
+  // Associate Characters with Plots
+  for (const plot of plots) {
+    const randomCharacterId =
+      characters[Math.floor(Math.random() * characters.length)]._id;
+    plot.mainCharacterId = randomCharacterId;
+    await plot.save();
+  }
 
-  process.exit();
+  console.log('All done!');
+  process.exit(0);
 });
