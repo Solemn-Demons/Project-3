@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const { User, Character, Plot } = require('../models');
 
 const resolvers = {
@@ -46,6 +47,25 @@ const resolvers = {
     },
   },
   Mutation: {
+    async login(_, { email, password }) {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      const validPassword = await user.isCorrectPassword(password);
+      if (!validPassword) {
+        throw new Error('Invalid password');
+      }
+
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      return {
+        token,
+        user,
+      };
+    },
     createCharacter: async (_, characterInput) => {
       try {
         return await Character.create(characterInput);

@@ -19,13 +19,16 @@ const typeDefs = gql`
     setting: String
   }
 
-  # User Type
   type User {
     _id: ID!
     firstName: String!
     lastName: String!
     email: String!
-    password: String
+  }
+
+  type AuthPayload {
+    token: String!
+    user: User!
   }
 
   type Query {
@@ -38,6 +41,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    login(email: String!, password: String!): AuthPayload
     createCharacter(
       name: String!
       age: Int
@@ -55,7 +59,7 @@ const typeDefs = gql`
     ): Character
     deleteCharacter(_id: ID!): Character
     createPlot(
-      title: String
+      title: String!
       description: String
       mainCharacter: ID
       timeline: String

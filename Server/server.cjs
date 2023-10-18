@@ -1,10 +1,8 @@
 // Import required libraries and modules
 const express = require('express');
-const { ApolloServer } = require('@apollo/server');
-const { expressMiddleware } = require('@apollo/server/express4');
+const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
-
 
 // Import GraphQL type definitions, resolvers, and database configuration
 const { typeDefs, resolvers } = require('./schemas');
@@ -33,33 +31,36 @@ const server = new ApolloServer({
       console.error('Invalid token');
       return {};
     }
-  }
-});
+  },
+  playground: process.env.NODE_ENV !== 'production'
 
-// Function to start the Apollo Server
+});
 const startApolloServer = async () => {
+  // Ensure Apollo server has started
   await server.start();
 
   // Set up middleware to handle URL-encoded and JSON data
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
-  // Serve static files when in production mode
+  // apollo server with express
+  server.applyMiddleware({ app, path: '/graphql' });
+
+    // Serve static files when in production mode
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
+      app.use(express.static(path.join(__dirname, '../client/dist')));
+
 
     // Route all unmatched routes to the main HTML file in production
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-    });
+        res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      });
   }
-
-  app.use('/graphql', expressMiddleware(server));
 
   db.once('open', () => {
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
-      console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
     });
   });
 };

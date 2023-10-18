@@ -8,22 +8,13 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "engines": {
-    "node": "v18.16.1",
-    "npm": "9.5.1"
-  },
   "dependencies": {
     "apollo-server-express": "^3.12.1",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
-<<<<<<< HEAD
-    "graphql": "^15.8.0",
-    "graphql-tag": "^2.12.6",
-=======
     "graphql": "^15.3.0",
->>>>>>> 136f0edd2b6b6bede9762d74e36ae037acc2325e
     "inquisitor": "^0.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.3",
