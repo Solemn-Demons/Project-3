@@ -5,13 +5,14 @@ const logout = async () => {
     });
   
     if (response.ok) {
+        localStorage.removeItem('token');
         document.location.replace('/');
     } else {
         alert('Failed to log out.');
     }
-  };
+};
   
-  const logoutButton = document.querySelector('#logout');
-  if (logoutButton) {
+const logoutButton = document.querySelector('#logout');
+if (logoutButton) {
     logoutButton.addEventListener('click', logout);
-  }
+}
