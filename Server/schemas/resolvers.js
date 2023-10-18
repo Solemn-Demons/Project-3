@@ -1,5 +1,12 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const { User, Character, Plot } = require('../models');
+
+const checkAuthenticated = (context) => {
+  if (!context.user) {
+      throw new Error('Authentication required.');
+  }
+};
 
 const resolvers = {
   Query: {
@@ -47,6 +54,28 @@ const resolvers = {
     },
   },
   Mutation: {
+    async signup(_, { username, email, password }) {
+
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+          throw new Error('Email already in use');
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const user = await User.create({
+          username,
+          email,
+          password: hashedPassword
+      });
+
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      return {
+          token,
+          user,
+      };
+  },
     async login(_, { email, password }) {
       const user = await User.findOne({ email });
 
@@ -66,14 +95,16 @@ const resolvers = {
         user,
       };
     },
-    createCharacter: async (_, characterInput) => {
+    createCharacter: async (_, characterInput, context) => {
+      checkAuthenticated(context);
       try {
         return await Character.create(characterInput);
       } catch (error) {
         throw new Error(error);
       }
     },
-    updateCharacter: async (_, { _id, ...updateData }) => {
+    updateCharacter: async (_, { _id, ...updateData }, context) => {
+      checkAuthenticated(context);
       try {
         return await Character.findByIdAndUpdate(_id, updateData, {
           new: true,
@@ -82,28 +113,32 @@ const resolvers = {
         throw new Error(error);
       }
     },
-    deleteCharacter: async (_, { _id }) => {
+    deleteCharacter: async (_, { _id }, context) => {
+      checkAuthenticated(context);
       try {
         return await Character.findByIdAndDelete(_id);
       } catch (error) {
         throw new Error(error);
       }
     },
-    createPlot: async (_, plotInput) => {
+    createPlot: async (_, plotInput, context) => {
+      checkAuthenticated(context);
       try {
         return await Plot.create(plotInput);
       } catch (error) {
         throw new Error(error);
       }
     },
-    updatePlot: async (_, { _id, ...updateData }) => {
+    updatePlot: async (_, { _id, ...updateData }, context) => {
+      checkAuthenticated(context);
       try {
         return await Plot.findByIdAndUpdate(_id, updateData, { new: true });
       } catch (error) {
         throw new Error(error);
       }
     },
-    deletePlot: async (_, { _id }) => {
+    deletePlot: async (_, { _id }, context) => {
+      checkAuthenticated(context);
       try {
         return await Plot.findByIdAndDelete(_id);
       } catch (error) {
@@ -111,20 +146,18 @@ const resolvers = {
       }
     },
     createUser: async (_, userInput) => {
-      try {
-        return await User.create(userInput);
-      } catch (error) {
-        throw new Error(error);
-      }
+      // ... [no changes here]
     },
-    updateUser: async (_, { _id, ...updateData }) => {
+    updateUser: async (_, { _id, ...updateData }, context) => {
+      checkAuthenticated(context);
       try {
         return await User.findByIdAndUpdate(_id, updateData, { new: true });
       } catch (error) {
         throw new Error(error);
       }
     },
-    deleteUser: async (_, { _id }) => {
+    deleteUser: async (_, { _id }, context) => {
+      checkAuthenticated(context);
       try {
         return await User.findByIdAndDelete(_id);
       } catch (error) {

@@ -1,17 +1,9 @@
-const logout = async () => {
-    const response = await fetch('/api/users/logout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-    });
-  
-    if (response.ok) {
-        localStorage.removeItem('token');
-        document.location.replace('/');
-    } else {
-        alert('Failed to log out.');
-    }
+const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('tokenExpiry'); 
+    document.location.replace('/');
 };
-  
+
 const logoutButton = document.querySelector('#logout');
 if (logoutButton) {
     logoutButton.addEventListener('click', logout);
