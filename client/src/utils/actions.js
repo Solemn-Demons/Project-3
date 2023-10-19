@@ -1,0 +1,16 @@
+export const GET_CHARACTER_BY_ID = 'GET_CHARACTER_BY_ID';
+export const GET_PLOT_BY_ID = 'GET_PLOT_BY_ID';
+export const GET_USER_BY_ID = 'GET_USER_BY_ID';
+export const GET_ALL_CHARACTERS = 'GET_ALL_CHARACTERS';
+export const GET_ALL_PLOTS = 'GET_ALL_PLOTS';
+export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const LOGIN = 'LOGIN';
+export const CREATE_CHARACTER = 'CREATE_CHARACTER';
+export const UPDATE_CHARACTER = 'UPDATE_CHARACTER';
+export const DELETE_CHARACTER = 'DELETE_CHARACTER';
+export const CREATE_PLOT = 'CREATE_PLOT';
+export const UPDATE_PLOT = 'UPDATE_PLOT';
+export const DELETE_PLOT = 'DELETE_PLOT';
+export const CREATE_USER = 'CREATE_USER';
+export const UPDATE_USER = 'UPDATE_USER';
+export const DELETE_USER = 'DELETE_USER';
